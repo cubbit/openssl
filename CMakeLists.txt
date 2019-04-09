@@ -30,6 +30,10 @@ if(NOT CMAKE_INSTALL_PREFIX)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/openssl)
 endif()
 
+if(NOT OPENSSL_BRANCH)
+    set(OPENSSL_BRANCH OpenSSL_1_0_2-stable)
+endif()
+
 # Configure step
 set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_PREFIX_PATH} --openssldir=${CMAKE_PREFIX_PATH} ${OPENSSL_TARGET}")
 set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS}")
@@ -43,7 +47,7 @@ set(COMMAND_INSTALL ${BUILD_ENV_TOOL} make install)
 ExternalProject_Add(openssl
     PREFIX openssl
     GIT_REPOSITORY https://github.com/openssl/openssl
-    GIT_TAG OpenSSL_1_0_2-stable
+    GIT_TAG ${OPENSSL_BRANCH}
     CONFIGURE_COMMAND ${COMMAND_CONFIGURE}
     BUILD_COMMAND ${COMMAND_BUILD}
     INSTALL_COMMAND ${COMMAND_INSTALL}
