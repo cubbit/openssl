@@ -26,8 +26,8 @@ endif()
 
 set(BUILD_ENV_TOOL ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/build.py ${CMAKE_CURRENT_BINARY_DIR}/openssl/src/openssl)
 
-if(NOT CMAKE_PREFIX_PATH)
-    set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_BINARY_DIR}/openssl)
+if(NOT CMAKE_INSTALL_PREFIX)
+    set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR}/openssl)
 endif()
 
 # Configure step
