@@ -7,6 +7,7 @@ project(openssl)
 
 # includes
 include(ExternalProject)
+include(GNUInstallDirs)
 
 # Options
 set(SYSTEM_OPENSSL OFF CACHE STRING "Use system-provided openssl libraries")
@@ -52,4 +53,10 @@ ExternalProject_Add(openssl
     BUILD_COMMAND ${COMMAND_BUILD}
     INSTALL_COMMAND ${COMMAND_INSTALL}
     UPDATE_COMMAND ""
+)
+
+install(DIRECTORY 
+    "${CMAKE_CURRENT_BINARY_DIR}/openssl/bin" DESTINATION ${CMAKE_INSTALL_BINDIR}
+    "${CMAKE_CURRENT_BINARY_DIR}/openssl/lib" DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    "${CMAKE_CURRENT_BINARY_DIR}/openssl/include" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
