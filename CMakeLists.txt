@@ -21,6 +21,8 @@ find_package(Perl 3 REQUIRED)
 
 find_program(MAKE_PROGRAM make)
 
+set(CMAKE_CXX_FLAGS "-fPIC")
+
 if(UNIX)
     set(OPENSSL_TARGET "linux-x86_64")
 endif()
