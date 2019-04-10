@@ -36,14 +36,21 @@ if(NOT OPENSSL_BRANCH)
 endif()
 
 # Configure step
-set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_PREFIX_PATH} --openssldir=${CMAKE_PREFIX_PATH} ${OPENSSL_TARGET}")
-set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS}")
+set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_INSTALL_PREFIX} --openssldir=${CMAKE_INSTALL_PREFIX} ${OPENSSL_TARGET}")
+set(CONFIGURE_OPENSSL_MODULES no-shared no-srp no-psk) # no-tests
+set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
 
 # Build step
 set(COMMAND_BUILD ${BUILD_ENV_TOOL} make)
 
 # Install step
-set(COMMAND_INSTALL ${BUILD_ENV_TOOL} make install)
+if (OPENSSL_INSTALL_MAN)
+    set(INSTALL_OPENSSL "install")
+else()
+    set(INSTALL_OPENSSL "install_sw")
+endif()
+
+set(COMMAND_INSTALL ${BUILD_ENV_TOOL} make ${INSTALL_OPENSSL})
 
 ExternalProject_Add(openssl
     PREFIX openssl
