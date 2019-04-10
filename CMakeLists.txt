@@ -37,7 +37,7 @@ endif()
 
 # Configure step
 set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_INSTALL_PREFIX} --openssldir=${CMAKE_INSTALL_PREFIX} ${OPENSSL_TARGET}")
-set(CONFIGURE_OPENSSL_MODULES no-shared no-srp no-psk) # no-tests
+set(CONFIGURE_OPENSSL_MODULES no-shared) # no-tests
 set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
 
 # Build step
