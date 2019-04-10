@@ -54,7 +54,3 @@ ExternalProject_Add(openssl
     INSTALL_COMMAND ${COMMAND_INSTALL}
     UPDATE_COMMAND ""
 )
-
-install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/openssl/bin" DESTINATION ".")
-install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/openssl/lib" DESTINATION ".")
-install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/openssl/include" DESTINATION ".")
