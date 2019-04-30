@@ -69,7 +69,7 @@ ExternalProject_Add(openssl
     PREFIX openssl
     GIT_REPOSITORY https://github.com/openssl/openssl
     GIT_TAG ${OPENSSL_BRANCH}
-    GIT_CONFIG user.name='' user.email=''
+    GIT_CONFIG user.name=cmake user.email=cmake@cmake.c
     CONFIGURE_COMMAND ${COMMAND_CONFIGURE}
     BUILD_COMMAND ${COMMAND_BUILD}
     INSTALL_COMMAND ${COMMAND_INSTALL}
