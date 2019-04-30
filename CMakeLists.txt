@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 # Project settings
-set(VERSION 1.0.0) 
+set(VERSION 1.0.0)
 set(DESCRIPTION "OpenSSL cmake fork")
 project(openssl)
 
@@ -25,6 +25,9 @@ if(UNIX AND NOT APPLE)
     set(OPENSSL_TARGET "linux-x86_64")
 elseif(UNIX)
     set(OPENSSL_TARGET "darwin64-x86_64-cc")
+elseif(WIN32)
+    set(OPENSSL_TARGET "VC-WIN64A")
+    set(OPENSSL_WIN_DO "ms/do_win64a")
 endif()
 
 set(BUILD_ENV_TOOL ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/build.py ${CMAKE_CURRENT_BINARY_DIR}/openssl/src/openssl)
@@ -40,14 +43,18 @@ endif()
 # Configure step
 set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_INSTALL_PREFIX} --openssldir=${CMAKE_INSTALL_PREFIX} -fPIC ${OPENSSL_TARGET}")
 set(CONFIGURE_OPENSSL_MODULES shared) # no-tests
-set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
 
 if(APPLE)
     set(CONFIGURE_OPENSSL_PARAMS "${CONFIGURE_OPENSSL_PARAMS} enable-ec_nistp_64_gcc_128")
 endif(APPLE)
 
-# Build step
-set(COMMAND_BUILD ${BUILD_ENV_TOOL} make)
+if(WIN32)
+    set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "perl Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
+    set(COMMAND_BUILD ${BUILD_ENV_TOOL} call ${OPENSSL_WIN_DO} && ${BUILD_ENV_TOOL} nmake -f ms\nt.mak)
+else()
+    set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
+    set(COMMAND_BUILD ${BUILD_ENV_TOOL} make)
+endif()
 
 # Install step
 if (OPENSSL_INSTALL_MAN)
@@ -62,6 +69,7 @@ ExternalProject_Add(openssl
     PREFIX openssl
     GIT_REPOSITORY https://github.com/openssl/openssl
     GIT_TAG ${OPENSSL_BRANCH}
+    GIT_CONFIG user.name="" user.email=""
     CONFIGURE_COMMAND ${COMMAND_CONFIGURE}
     BUILD_COMMAND ${COMMAND_BUILD}
     INSTALL_COMMAND ${COMMAND_INSTALL}
