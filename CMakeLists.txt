@@ -57,7 +57,7 @@ if(WIN32)
     set(CONFIGURE_OPENSSL_MODULES no-shared) # no-tests
     set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "perl Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
     set(COMMAND_BUILD ${BUILD_ENV_TOOL} call ${OPENSSL_WIN_DO} && ${BUILD_ENV_TOOL} nmake -f ms/nt.mak)
-    set(COMMAND_INSTALL ${BUILD_ENV_TOOL} nmake ${INSTALL_OPENSSL})
+    set(COMMAND_INSTALL ${BUILD_ENV_TOOL} nmake -f ms/nt.mak install)
 else()
     string(APPEND CONFIGURE_OPENSSL_PARAMS " -fPIC")
     set(CONFIGURE_OPENSSL_MODULES shared) # no-tests
