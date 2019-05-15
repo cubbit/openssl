@@ -40,18 +40,11 @@ if(NOT OPENSSL_BRANCH)
     set(OPENSSL_BRANCH OpenSSL_1_0_2-stable)
 endif()
 
+set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_INSTALL_PREFIX} --openssldir=${CMAKE_INSTALL_PREFIX} ${OPENSSL_TARGET}")
+
 if(APPLE)
     set(CONFIGURE_OPENSSL_PARAMS "${CONFIGURE_OPENSSL_PARAMS} enable-ec_nistp_64_gcc_128")
 endif(APPLE)
-
-# Install step
-if (OPENSSL_INSTALL_MAN)
-    set(INSTALL_OPENSSL "install")
-else()
-    set(INSTALL_OPENSSL "install_sw")
-endif()
-
-set(CONFIGURE_OPENSSL_PARAMS "--prefix=${CMAKE_INSTALL_PREFIX} --openssldir=${CMAKE_INSTALL_PREFIX} ${OPENSSL_TARGET}")
 
 if(WIN32)
     set(CONFIGURE_OPENSSL_MODULES no-shared) # no-tests
@@ -63,7 +56,7 @@ else()
     set(CONFIGURE_OPENSSL_MODULES shared) # no-tests
     set(COMMAND_CONFIGURE ${BUILD_ENV_TOOL} "./Configure ${CONFIGURE_OPENSSL_PARAMS} ${CONFIGURE_OPENSSL_MODULES}")
     set(COMMAND_BUILD ${BUILD_ENV_TOOL} make)
-    set(COMMAND_INSTALL ${BUILD_ENV_TOOL} make ${INSTALL_OPENSSL})
+    set(COMMAND_INSTALL ${BUILD_ENV_TOOL} make install_sw)
 endif()
 
 ExternalProject_Add(openssl
