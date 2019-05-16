@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 # Project settings
 set(VERSION 1.0.0)
 set(DESCRIPTION "OpenSSL cmake fork")
-project(openssl)
+project(openssl NONE)
 
 # includes
 include(ExternalProject)
